@@ -1,0 +1,15 @@
+# Foundry (evm/)
+evm/cache/
+evm/out/
+evm/lib/
+
+# Anchor and Cargo (solana/)
+solana/target/
+solana/.anchor/
+solana/test-ledger/
+solana/node_modules/
+solana/.yarn/
+solana/.surfpool/
+**/*.rs.bk
+
+.DS_Store

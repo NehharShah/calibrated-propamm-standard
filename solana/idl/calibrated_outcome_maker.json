@@ -1,0 +1,2738 @@
+{
+  "address": "HYT6rgCrDK9inEYt5UaVgSPwrChudbgZBsLvnoiBSBnE",
+  "metadata": {
+    "name": "calibrated_outcome_maker",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Calibrated market maker for binary outcome tokens (Shah 2026, Digital Finance)"
+  },
+  "instructions": [
+    {
+      "name": "deposit",
+      "discriminator": [
+        242,
+        35,
+        198,
+        137,
+        82,
+        225,
+        242,
+        182
+      ],
+      "accounts": [
+        {
+          "name": "operator",
+          "signer": true,
+          "relations": [
+            "maker"
+          ]
+        },
+        {
+          "name": "maker",
+          "relations": [
+            "market"
+          ]
+        },
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "counterparty",
+          "docs": [
+            "Source for deposits (must be owned by the operator, enforced by the",
+            "token program) or destination for withdrawals (any owner)."
+          ],
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "get_amount_out",
+      "discriminator": [
+        20,
+        80,
+        11,
+        90,
+        189,
+        24,
+        35,
+        202
+      ],
+      "accounts": [
+        {
+          "name": "maker",
+          "relations": [
+            "market"
+          ]
+        },
+        {
+          "name": "market"
+        },
+        {
+          "name": "record",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  99,
+                  111,
+                  114,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker"
+              },
+              {
+                "kind": "account",
+                "path": "market.model_id",
+                "account": "Market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "outcome_vault",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market.outcome_mint",
+                "account": "Market"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "collateral_vault",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "market.collateral_mint",
+                "account": "Market"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "token_in",
+          "type": "pubkey"
+        },
+        {
+          "name": "token_out",
+          "type": "pubkey"
+        },
+        {
+          "name": "amount_in",
+          "type": "u64"
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "improves_book",
+      "discriminator": [
+        228,
+        153,
+        90,
+        219,
+        232,
+        98,
+        104,
+        25
+      ],
+      "accounts": [
+        {
+          "name": "maker",
+          "relations": [
+            "market"
+          ]
+        },
+        {
+          "name": "market"
+        },
+        {
+          "name": "record",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  99,
+                  111,
+                  114,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker"
+              },
+              {
+                "kind": "account",
+                "path": "market.model_id",
+                "account": "Market"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "ref_bid_bps",
+          "type": "u64"
+        },
+        {
+          "name": "ref_ask_bps",
+          "type": "u64"
+        }
+      ],
+      "returns": "bool"
+    },
+    {
+      "name": "init_maker",
+      "discriminator": [
+        69,
+        195,
+        103,
+        71,
+        209,
+        150,
+        14,
+        4
+      ],
+      "accounts": [
+        {
+          "name": "operator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "maker",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  107,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "operator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "attester",
+          "type": "pubkey"
+        },
+        {
+          "name": "quote_signer",
+          "type": "pubkey"
+        },
+        {
+          "name": "max_record_age",
+          "type": "i64"
+        },
+        {
+          "name": "min_sample_size",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "quote_bps",
+      "discriminator": [
+        81,
+        253,
+        205,
+        51,
+        20,
+        73,
+        58,
+        53
+      ],
+      "accounts": [
+        {
+          "name": "maker",
+          "relations": [
+            "market"
+          ]
+        },
+        {
+          "name": "market"
+        },
+        {
+          "name": "record",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  99,
+                  111,
+                  114,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker"
+              },
+              {
+                "kind": "account",
+                "path": "market.model_id",
+                "account": "Market"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [],
+      "returns": {
+        "defined": {
+          "name": "Quote"
+        }
+      }
+    },
+    {
+      "name": "set_active",
+      "discriminator": [
+        29,
+        16,
+        225,
+        132,
+        38,
+        216,
+        206,
+        33
+      ],
+      "accounts": [
+        {
+          "name": "operator",
+          "signer": true,
+          "relations": [
+            "maker"
+          ]
+        },
+        {
+          "name": "maker",
+          "relations": [
+            "market"
+          ]
+        },
+        {
+          "name": "market",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "active",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "set_calibration",
+      "discriminator": [
+        87,
+        228,
+        106,
+        7,
+        247,
+        37,
+        70,
+        149
+      ],
+      "accounts": [
+        {
+          "name": "attester",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "maker"
+          ]
+        },
+        {
+          "name": "maker"
+        },
+        {
+          "name": "record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  99,
+                  111,
+                  114,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker"
+              },
+              {
+                "kind": "arg",
+                "path": "model_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "model_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "record",
+          "type": {
+            "defined": {
+              "name": "CalibrationInput"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "set_market",
+      "discriminator": [
+        24,
+        133,
+        119,
+        187,
+        28,
+        115,
+        163,
+        81
+      ],
+      "accounts": [
+        {
+          "name": "operator",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "maker"
+          ]
+        },
+        {
+          "name": "maker"
+        },
+        {
+          "name": "outcome_mint"
+        },
+        {
+          "name": "collateral_mint"
+        },
+        {
+          "name": "market",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker"
+              },
+              {
+                "kind": "account",
+                "path": "outcome_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "collateral_marker",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  108,
+                  108,
+                  97,
+                  116,
+                  101,
+                  114,
+                  97,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker"
+              },
+              {
+                "kind": "account",
+                "path": "collateral_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "outcome_as_collateral",
+          "docs": [
+            "exist; only its address is verified here and its emptiness in the handler."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  108,
+                  108,
+                  97,
+                  116,
+                  101,
+                  114,
+                  97,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker"
+              },
+              {
+                "kind": "account",
+                "path": "outcome_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "collateral_as_outcome",
+          "docs": [
+            "token. It must not exist; address verified here, emptiness in the handler."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  97,
+                  114,
+                  107,
+                  101,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker"
+              },
+              {
+                "kind": "account",
+                "path": "collateral_mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "outcome_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "outcome_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "collateral_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "collateral_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "model_id",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "set_quote_params",
+      "discriminator": [
+        168,
+        63,
+        113,
+        197,
+        181,
+        34,
+        208,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "operator",
+          "signer": true,
+          "relations": [
+            "maker"
+          ]
+        },
+        {
+          "name": "maker",
+          "relations": [
+            "market"
+          ]
+        },
+        {
+          "name": "market",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": {
+              "name": "QuoteParams"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "set_quote_params_batch",
+      "docs": [
+        "Markets are passed as remaining accounts, one per entry of `params`."
+      ],
+      "discriminator": [
+        176,
+        68,
+        32,
+        31,
+        43,
+        189,
+        140,
+        12
+      ],
+      "accounts": [
+        {
+          "name": "operator",
+          "signer": true,
+          "relations": [
+            "maker"
+          ]
+        },
+        {
+          "name": "maker"
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "QuoteParams"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "spread_floor_bps",
+      "discriminator": [
+        199,
+        37,
+        179,
+        113,
+        58,
+        175,
+        245,
+        84
+      ],
+      "accounts": [
+        {
+          "name": "maker",
+          "relations": [
+            "market"
+          ]
+        },
+        {
+          "name": "market"
+        },
+        {
+          "name": "record",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  99,
+                  111,
+                  114,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker"
+              },
+              {
+                "kind": "account",
+                "path": "market.model_id",
+                "account": "Market"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [],
+      "returns": "u64"
+    },
+    {
+      "name": "swap",
+      "discriminator": [
+        248,
+        198,
+        158,
+        145,
+        225,
+        117,
+        135,
+        200
+      ],
+      "accounts": [
+        {
+          "name": "taker",
+          "signer": true
+        },
+        {
+          "name": "maker",
+          "relations": [
+            "market"
+          ]
+        },
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "record",
+          "docs": [
+            "so that a missing record reports `NoCalibration`."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  99,
+                  111,
+                  114,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "maker"
+              },
+              {
+                "kind": "account",
+                "path": "market.model_id",
+                "account": "Market"
+              }
+            ]
+          }
+        },
+        {
+          "name": "outcome_mint"
+        },
+        {
+          "name": "collateral_mint"
+        },
+        {
+          "name": "outcome_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "outcome_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "collateral_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "collateral_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "taker_in",
+          "docs": [
+            "The taker's source account. Its mint decides the direction of the fill."
+          ],
+          "writable": true
+        },
+        {
+          "name": "taker_out",
+          "docs": [
+            "Recipient of the output. Any token account of the output mint."
+          ],
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount_in",
+          "type": "u64"
+        },
+        {
+          "name": "amount_out_min",
+          "type": "u64"
+        },
+        {
+          "name": "deadline",
+          "type": "i64"
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "swap_with_quote",
+      "docs": [
+        "Same as `swap`, priced from `quote`, which the maker's quote signer",
+        "authorises by co-signing the transaction."
+      ],
+      "discriminator": [
+        105,
+        33,
+        241,
+        155,
+        205,
+        248,
+        138,
+        64
+      ],
+      "accounts": [
+        {
+          "name": "base",
+          "accounts": [
+            {
+              "name": "taker",
+              "signer": true
+            },
+            {
+              "name": "maker",
+              "relations": [
+                "market"
+              ]
+            },
+            {
+              "name": "market",
+              "writable": true
+            },
+            {
+              "name": "record",
+              "docs": [
+                "so that a missing record reports `NoCalibration`."
+              ],
+              "pda": {
+                "seeds": [
+                  {
+                    "kind": "const",
+                    "value": [
+                      114,
+                      101,
+                      99,
+                      111,
+                      114,
+                      100
+                    ]
+                  },
+                  {
+                    "kind": "account",
+                    "path": "maker"
+                  },
+                  {
+                    "kind": "account",
+                    "path": "market.model_id",
+                    "account": "Market"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "outcome_mint"
+            },
+            {
+              "name": "collateral_mint"
+            },
+            {
+              "name": "outcome_vault",
+              "writable": true,
+              "pda": {
+                "seeds": [
+                  {
+                    "kind": "account",
+                    "path": "market"
+                  },
+                  {
+                    "kind": "const",
+                    "value": [
+                      6,
+                      221,
+                      246,
+                      225,
+                      215,
+                      101,
+                      161,
+                      147,
+                      217,
+                      203,
+                      225,
+                      70,
+                      206,
+                      235,
+                      121,
+                      172,
+                      28,
+                      180,
+                      133,
+                      237,
+                      95,
+                      91,
+                      55,
+                      145,
+                      58,
+                      140,
+                      245,
+                      133,
+                      126,
+                      255,
+                      0,
+                      169
+                    ]
+                  },
+                  {
+                    "kind": "account",
+                    "path": "outcome_mint"
+                  }
+                ],
+                "program": {
+                  "kind": "const",
+                  "value": [
+                    140,
+                    151,
+                    37,
+                    143,
+                    78,
+                    36,
+                    137,
+                    241,
+                    187,
+                    61,
+                    16,
+                    41,
+                    20,
+                    142,
+                    13,
+                    131,
+                    11,
+                    90,
+                    19,
+                    153,
+                    218,
+                    255,
+                    16,
+                    132,
+                    4,
+                    142,
+                    123,
+                    216,
+                    219,
+                    233,
+                    248,
+                    89
+                  ]
+                }
+              }
+            },
+            {
+              "name": "collateral_vault",
+              "writable": true,
+              "pda": {
+                "seeds": [
+                  {
+                    "kind": "account",
+                    "path": "market"
+                  },
+                  {
+                    "kind": "const",
+                    "value": [
+                      6,
+                      221,
+                      246,
+                      225,
+                      215,
+                      101,
+                      161,
+                      147,
+                      217,
+                      203,
+                      225,
+                      70,
+                      206,
+                      235,
+                      121,
+                      172,
+                      28,
+                      180,
+                      133,
+                      237,
+                      95,
+                      91,
+                      55,
+                      145,
+                      58,
+                      140,
+                      245,
+                      133,
+                      126,
+                      255,
+                      0,
+                      169
+                    ]
+                  },
+                  {
+                    "kind": "account",
+                    "path": "collateral_mint"
+                  }
+                ],
+                "program": {
+                  "kind": "const",
+                  "value": [
+                    140,
+                    151,
+                    37,
+                    143,
+                    78,
+                    36,
+                    137,
+                    241,
+                    187,
+                    61,
+                    16,
+                    41,
+                    20,
+                    142,
+                    13,
+                    131,
+                    11,
+                    90,
+                    19,
+                    153,
+                    218,
+                    255,
+                    16,
+                    132,
+                    4,
+                    142,
+                    123,
+                    216,
+                    219,
+                    233,
+                    248,
+                    89
+                  ]
+                }
+              }
+            },
+            {
+              "name": "taker_in",
+              "docs": [
+                "The taker's source account. Its mint decides the direction of the fill."
+              ],
+              "writable": true
+            },
+            {
+              "name": "taker_out",
+              "docs": [
+                "Recipient of the output. Any token account of the output mint."
+              ],
+              "writable": true
+            },
+            {
+              "name": "token_program",
+              "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+            }
+          ]
+        },
+        {
+          "name": "quote_signer",
+          "docs": [
+            "The maker's quote signer. Its signature on this transaction is the",
+            "authorisation for the quote in the instruction data. No key can sign",
+            "as `Pubkey::default()`, so a maker initialised with it has this path",
+            "disabled."
+          ],
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "quote",
+          "type": {
+            "defined": {
+              "name": "SignedQuote"
+            }
+          }
+        },
+        {
+          "name": "amount_in",
+          "type": "u64"
+        },
+        {
+          "name": "amount_out_min",
+          "type": "u64"
+        },
+        {
+          "name": "deadline",
+          "type": "i64"
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "withdraw",
+      "discriminator": [
+        183,
+        18,
+        70,
+        156,
+        148,
+        109,
+        161,
+        34
+      ],
+      "accounts": [
+        {
+          "name": "operator",
+          "signer": true,
+          "relations": [
+            "maker"
+          ]
+        },
+        {
+          "name": "maker",
+          "relations": [
+            "market"
+          ]
+        },
+        {
+          "name": "market",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "market"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "counterparty",
+          "docs": [
+            "Source for deposits (must be owned by the operator, enforced by the",
+            "token program) or destination for withdrawals (any owner)."
+          ],
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CalibrationRecord",
+      "discriminator": [
+        90,
+        33,
+        113,
+        188,
+        119,
+        107,
+        220,
+        87
+      ]
+    },
+    {
+      "name": "CollateralMarker",
+      "discriminator": [
+        207,
+        241,
+        120,
+        3,
+        104,
+        195,
+        223,
+        127
+      ]
+    },
+    {
+      "name": "Maker",
+      "discriminator": [
+        31,
+        255,
+        232,
+        61,
+        38,
+        28,
+        189,
+        147
+      ]
+    },
+    {
+      "name": "Market",
+      "discriminator": [
+        219,
+        190,
+        213,
+        55,
+        0,
+        227,
+        198,
+        154
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "CalibrationUpdated",
+      "discriminator": [
+        111,
+        209,
+        254,
+        74,
+        12,
+        19,
+        222,
+        4
+      ]
+    },
+    {
+      "name": "MarketActiveSet",
+      "discriminator": [
+        17,
+        255,
+        149,
+        45,
+        200,
+        146,
+        208,
+        135
+      ]
+    },
+    {
+      "name": "MarketSet",
+      "discriminator": [
+        64,
+        19,
+        78,
+        233,
+        226,
+        142,
+        234,
+        83
+      ]
+    },
+    {
+      "name": "QuoteParamsSet",
+      "discriminator": [
+        252,
+        63,
+        91,
+        244,
+        195,
+        170,
+        78,
+        115
+      ]
+    },
+    {
+      "name": "Swap",
+      "discriminator": [
+        81,
+        108,
+        227,
+        190,
+        205,
+        208,
+        10,
+        196
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotOperator",
+      "msg": "signer is not the operator"
+    },
+    {
+      "code": 6001,
+      "name": "NotAttester",
+      "msg": "signer is not the attester"
+    },
+    {
+      "code": 6002,
+      "name": "BadPair",
+      "msg": "token pair is not an active market in this direction"
+    },
+    {
+      "code": 6003,
+      "name": "TokenRoleCollision",
+      "msg": "a token may be an outcome token in one market or a collateral, never both"
+    },
+    {
+      "code": 6004,
+      "name": "BadDecimals",
+      "msg": "mint decimals exceed the supported maximum"
+    },
+    {
+      "code": 6005,
+      "name": "ZeroAddress",
+      "msg": "zero account where one is required"
+    },
+    {
+      "code": 6006,
+      "name": "ZeroAmount",
+      "msg": "amount in must be nonzero"
+    },
+    {
+      "code": 6007,
+      "name": "ZeroOutput",
+      "msg": "the fill would deliver nothing"
+    },
+    {
+      "code": 6008,
+      "name": "ZeroPrice",
+      "msg": "ask of zero cannot be filled"
+    },
+    {
+      "code": 6009,
+      "name": "Expired",
+      "msg": "deadline has passed"
+    },
+    {
+      "code": 6010,
+      "name": "Slippage",
+      "msg": "amount out is below the minimum"
+    },
+    {
+      "code": 6011,
+      "name": "NoCalibration",
+      "msg": "no calibration record is published for this market's model"
+    },
+    {
+      "code": 6012,
+      "name": "CalibrationStale",
+      "msg": "calibration record is older than the maximum age"
+    },
+    {
+      "code": 6013,
+      "name": "BadRecordTime",
+      "msg": "measuredAt is in the future or precedes earliestResolution"
+    },
+    {
+      "code": 6014,
+      "name": "SampleTooSmall",
+      "msg": "sample size is below the minimum"
+    },
+    {
+      "code": 6015,
+      "name": "SampleBeforeCutoff",
+      "msg": "earliest resolution is not after the training cutoff"
+    },
+    {
+      "code": 6016,
+      "name": "InventoryLimit",
+      "msg": "the fill would carry the position beyond the inventory limit"
+    },
+    {
+      "code": 6017,
+      "name": "InsufficientInventory",
+      "msg": "vault holds less than the fill requires"
+    },
+    {
+      "code": 6018,
+      "name": "BadBps",
+      "msg": "basis points value exceeds 10000"
+    },
+    {
+      "code": 6019,
+      "name": "FloorOutOfRange",
+      "msg": "the spread floor exceeds the probability range; the maker refuses to quote"
+    },
+    {
+      "code": 6020,
+      "name": "SkewExceedsSpread",
+      "msg": "skew across the full inventory limit exceeds the spread; a round trip could profit"
+    },
+    {
+      "code": 6021,
+      "name": "MathOverflow",
+      "msg": "arithmetic overflow"
+    },
+    {
+      "code": 6022,
+      "name": "UriTooLong",
+      "msg": "dataset URI exceeds the maximum length"
+    },
+    {
+      "code": 6023,
+      "name": "LengthMismatch",
+      "msg": "remaining accounts and parameters differ in length"
+    },
+    {
+      "code": 6024,
+      "name": "NotWritable",
+      "msg": "market account must be writable"
+    },
+    {
+      "code": 6025,
+      "name": "UnknownMarket",
+      "msg": "account is not a market of this maker"
+    },
+    {
+      "code": 6026,
+      "name": "QuoteExpired",
+      "msg": "signed quote has expired"
+    },
+    {
+      "code": 6027,
+      "name": "QuoteInsideFloor",
+      "msg": "signed quote is narrower than the floor or crossed"
+    },
+    {
+      "code": 6028,
+      "name": "QuoteSizeExceeded",
+      "msg": "fill exceeds the size the signed quote allows"
+    },
+    {
+      "code": 6029,
+      "name": "BadSigner",
+      "msg": "co-signer is not the maker's quote signer; a default key disables signed quotes"
+    }
+  ],
+  "types": [
+    {
+      "name": "CalibrationInput",
+      "docs": [
+        "Instruction argument for `set_calibration`."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "alpha_bps",
+            "type": "u16"
+          },
+          {
+            "name": "phi_bps",
+            "type": "u16"
+          },
+          {
+            "name": "sample_size",
+            "type": "u32"
+          },
+          {
+            "name": "excluded",
+            "type": "u32"
+          },
+          {
+            "name": "measured_at",
+            "type": "i64"
+          },
+          {
+            "name": "earliest_resolution",
+            "type": "i64"
+          },
+          {
+            "name": "training_cutoff",
+            "type": "i64"
+          },
+          {
+            "name": "dataset_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "dataset_uri",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CalibrationRecord",
+      "docs": [
+        "Calibration record for one forecaster. PDA seeded by the maker and the",
+        "model id. Field meanings follow the Solidity interface in `../../evm`."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maker",
+            "type": "pubkey"
+          },
+          {
+            "name": "model_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "alpha_bps",
+            "docs": [
+              "Mean absolute error between forecast and realized outcome, in bps."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "phi_bps",
+            "docs": [
+              "Informed fraction of order flow the maker assumes, in bps."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "sample_size",
+            "docs": [
+              "Number of resolved forecasts the error is measured on."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "excluded",
+            "docs": [
+              "Forecasts excluded from the sample, disclosed so `sample_size` cannot",
+              "silently shrink to the convenient subset."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "measured_at",
+            "docs": [
+              "Unix time the record was produced. Not in the future, not before",
+              "`earliest_resolution`."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "earliest_resolution",
+            "docs": [
+              "Unix time of the earliest question resolution in the sample."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "training_cutoff",
+            "docs": [
+              "Unix time of the forecaster's knowledge cutoff, or 0 if none."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "dataset_hash",
+            "docs": [
+              "Hash of the canonical per-forecast record set."
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "dataset_uri",
+            "type": "string"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CalibrationUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maker",
+            "type": "pubkey"
+          },
+          {
+            "name": "model_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "alpha_bps",
+            "type": "u16"
+          },
+          {
+            "name": "phi_bps",
+            "type": "u16"
+          },
+          {
+            "name": "sample_size",
+            "type": "u32"
+          },
+          {
+            "name": "excluded",
+            "type": "u32"
+          },
+          {
+            "name": "dataset_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "CollateralMarker",
+      "docs": [
+        "Marks a mint as collateral for this maker, so it can never become an",
+        "outcome mint. PDA seeded by the maker and the mint."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maker",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Maker",
+      "docs": [
+        "One maker: a role pair and the record rules it enforces. Program derived",
+        "address (PDA) seeded by the operator, so one maker per operator key."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "operator",
+            "type": "pubkey"
+          },
+          {
+            "name": "attester",
+            "type": "pubkey"
+          },
+          {
+            "name": "quote_signer",
+            "docs": [
+              "Key the offchain quoting engine co-signs `swap_with_quote` with.",
+              "`Pubkey::default()` disables the signed path."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "max_record_age",
+            "docs": [
+              "Seconds a calibration record stays valid after `measured_at`."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "min_sample_size",
+            "type": "u32"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Market",
+      "docs": [
+        "One market: the pair (collateral mint, outcome mint). PDA seeded by the",
+        "maker and the outcome mint, so an outcome mint belongs to one market.",
+        "Token vaults are the associated token accounts of this PDA."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maker",
+            "type": "pubkey"
+          },
+          {
+            "name": "outcome_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "collateral_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "model_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "forecast_bps",
+            "docs": [
+              "Forecaster's probability estimate, in basis points (bps)."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "operator_spread_bps",
+            "docs": [
+              "Spread the operator would like; the floor may override it."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "skew_bps_per_unit",
+            "docs": [
+              "Bps of mid shift per whole outcome token held (beta)."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "outcome_decimals",
+            "type": "u8"
+          },
+          {
+            "name": "collateral_decimals",
+            "type": "u8"
+          },
+          {
+            "name": "active",
+            "type": "bool"
+          },
+          {
+            "name": "inventory_limit",
+            "docs": [
+              "Q_max in outcome token base units."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "position",
+            "docs": [
+              "Net outcome tokens from fills and operator deposits and withdrawals,",
+              "in base units. Positive means the maker is long the outcome."
+            ],
+            "type": "i128"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketActiveSet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market",
+            "type": "pubkey"
+          },
+          {
+            "name": "active",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketSet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market",
+            "type": "pubkey"
+          },
+          {
+            "name": "outcome_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "collateral_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "model_id",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Quote",
+      "docs": [
+        "Return value of the `quote_bps` view."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bid_bps",
+            "type": "u64"
+          },
+          {
+            "name": "ask_bps",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "QuoteParams",
+      "docs": [
+        "Stored-parameter quote inputs, used one market at a time or in a batch."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "forecast_bps",
+            "type": "u16"
+          },
+          {
+            "name": "operator_spread_bps",
+            "type": "u16"
+          },
+          {
+            "name": "skew_bps_per_unit",
+            "type": "u16"
+          },
+          {
+            "name": "inventory_limit",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "QuoteParamsSet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market",
+            "type": "pubkey"
+          },
+          {
+            "name": "forecast_bps",
+            "type": "u16"
+          },
+          {
+            "name": "operator_spread_bps",
+            "type": "u16"
+          },
+          {
+            "name": "skew_bps_per_unit",
+            "type": "u16"
+          },
+          {
+            "name": "inventory_limit",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SignedQuote",
+      "docs": [
+        "A quote produced offchain. The quoting engine authorises it by co-signing",
+        "the transaction with `Maker::quote_signer`, so the quote is bound to this",
+        "exact transaction and cannot be replayed or altered."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bid_bps",
+            "docs": [
+              "Price at which the maker buys the outcome token, in bps."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "ask_bps",
+            "docs": [
+              "Price at which the maker sells it. `ask - bid` must be at least the floor."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "max_outcome_out",
+            "docs": [
+              "Most outcome tokens the maker will sell on this quote, base units."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "max_outcome_in",
+            "docs": [
+              "Most outcome tokens the maker will buy on this quote, base units."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "expiry",
+            "docs": [
+              "Unix time after which the quote is refused."
+            ],
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Swap",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "market",
+            "type": "pubkey"
+          },
+          {
+            "name": "taker",
+            "type": "pubkey"
+          },
+          {
+            "name": "recipient",
+            "type": "pubkey"
+          },
+          {
+            "name": "token_in",
+            "type": "pubkey"
+          },
+          {
+            "name": "token_out",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount_in",
+            "type": "u64"
+          },
+          {
+            "name": "amount_out",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
+}
